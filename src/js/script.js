@@ -57,17 +57,40 @@
   class Product {
     constructor(id, data) {
       const thisProduct = this;
+
       thisProduct.id = id;
       thisProduct.data = data;
+      thisProduct.renderInMenu();
 
       console.log('new Product: ', thisProduct);
+    }
+
+    renderInMenu() {
+      const thisProduct = this;
+
+      /* Generate HTML based on template */
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+
+      /* Create element using utils.createElementFromHTML */
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      // console.log(thisProduct.element);
+
+      /* Find menu container */
+      const menuContainer = document.querySelector(select.containerOf.menu);
+
+      /* Add element to menu */
+      menuContainer.appendChild(thisProduct.element);
     }
   }
 
   const app = {
     initMenu: function () {
-      // const thisApp = this;
-      // console.log('thisApp.data: ', thisApp.data);
+      //Wywoływana jest po app.initData ponieważ metoda ta korzysta z przygotowanej wcześniej referencji do danych (thisApp.data)
+      // Zadaniem tej metody jest przejście po wszystkich obiektach produktów z thisApp.data.products (cake, breakfast, pizza, salad) i utworzenie dla każdego z nich instancji klasy Produkt
+      // Przy tworzeniu każdej instancji uruchamia się funkcja konstruktora, która uruchamia dla danego obiektu metodę renderInMenu.
+      // Ona tworzy element DOM wygenerowany na podstawie szablonu HTML reprezentujący właśnie dany produkt i "dokleja" go do strony.
+      // Najprościej mówiąc: metoda app.initMenu przejdzie po każdym produkcie z osobna i stworzy dla niego instancję Produkt, czego wynikiem będzie również utworzenie na stronie reprezentacji HTML każdego z produktów thisApp.data.products.
+
       // const testProduct = new Product();
       // console.log('new Product: ', testProduct);
 
@@ -79,6 +102,7 @@
       }
     },
     initData: function () {
+      // Przygotowuje nam łatwy dostęp do danych - źródła
       const thisApp = this;
       thisApp.data = dataSource;
     },
