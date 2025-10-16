@@ -65,8 +65,6 @@
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
-
-      // console.log('new Product: ', thisProduct);
     }
 
     renderInMenu() {
@@ -109,18 +107,22 @@
     initAccordion() {
       const thisProduct = this;
 
-      /* Find the clickable trigger (the element that should react to clicking) */
+      /* Find the clickable trigger (the element that should react to clicking)
+      [NEW - after creating getElements function, the variable clickableTrigger is not longer needed] */
       // const clickableTrigger = thisProduct.element.querySelector(
       //   select.menuProduct.clickable
       // );
+
       /* START: add event listener to clickable trigger on event click */
       thisProduct.accordionTrigger.addEventListener('click', function (event) {
         /* Prevent default action for event */
         event.preventDefault();
+
         /* Find active product (product that has active class) */
         const activeProduct = document.querySelector(
           select.all.menuProductsActive
         );
+
         /* If there is an active product and it's not thisProduct.element, remove class active from it */
         if (activeProduct) {
           if (activeProduct != thisProduct.element) {
@@ -138,7 +140,6 @@
 
     initOrderForm() {
       const thisProduct = this;
-      // console.log('initOrderForm: ', thisProduct);
 
       thisProduct.form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -156,13 +157,12 @@
         thisProduct.processOrder();
       });
     }
+
     processOrder() {
       const thisProduct = this;
-      // console.log('processOrder: ', thisProduct);
 
       /* Convert form to object structure e.g. {sauce: ['tomato'], toppings: ['olives', redPeppers']} */
       const formData = utils.serializeFormToObject(thisProduct.form);
-      // console.log('formData: ', formData);
 
       /* Set price to default price */
       let price = thisProduct.data.price;
@@ -171,13 +171,21 @@
       for (let paramId in thisProduct.data.params) {
         /* Determine param value, e.g. paramId = 'toppings', param = {label: 'Toppings', type: 'checkboxes' ...} */
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
 
         /* For every option in this category */
         for (let optionId in param.options) {
           /* Determine option value, e.g. optionId = 'olives', option = {label: 'Olives', price: 2, default: true } */
           const option = param.options[optionId];
-          // console.log(optionId, option);
+
+          if (formData[paramId].includes(optionId) == true) {
+            if (option.default !== true) {
+              price += option.price;
+            }
+          } else {
+            if (option.default == true) {
+              price -= option.price;
+            }
+          }
         }
       }
       /* Update calculated price in the HTML */
@@ -188,7 +196,6 @@
   const app = {
     initMenu: function () {
       const thisApp = this;
-      // console.log('thisApp.data: ', thisApp.data);
 
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
