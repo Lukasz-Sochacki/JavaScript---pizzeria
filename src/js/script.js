@@ -61,6 +61,7 @@
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
+      thisProduct.initAccordion();
 
       console.log('new Product: ', thisProduct);
     }
@@ -81,19 +82,40 @@
       /* Add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
+
+    initAccordion() {
+      const thisProduct = this;
+
+      /* Find the clickable trigger (the element that should react to clicking) */
+      const clickableTrigger = thisProduct.element.querySelector(
+        select.menuProduct.clickable
+      );
+      /* START: add event listener to clickable trigger on event click */
+      clickableTrigger.addEventListener('click', function (event) {
+        /* Prevent default action for event */
+        event.preventDefault();
+        /* Find active product (product that has active class) */
+        const activeProduct = document.querySelector(
+          select.all.menuProductsActive
+        );
+        /* If there is an active product and it's not thisProduct.element, remove class active from it */
+        if (activeProduct) {
+          if (activeProduct != thisProduct.element) {
+            activeProduct.classList.remove(
+              classNames.menuProduct.wrapperActive
+            );
+          }
+        }
+        /* Toggle active class on thisProduct.element */
+        thisProduct.element.classList.toggle(
+          classNames.menuProduct.wrapperActive
+        );
+      });
+    }
   }
 
   const app = {
     initMenu: function () {
-      //Wywoływana jest po app.initData ponieważ metoda ta korzysta z przygotowanej wcześniej referencji do danych (thisApp.data)
-      // Zadaniem tej metody jest przejście po wszystkich obiektach produktów z thisApp.data.products (cake, breakfast, pizza, salad) i utworzenie dla każdego z nich instancji klasy Produkt
-      // Przy tworzeniu każdej instancji uruchamia się funkcja konstruktora, która uruchamia dla danego obiektu metodę renderInMenu.
-      // Ona tworzy element DOM wygenerowany na podstawie szablonu HTML reprezentujący właśnie dany produkt i "dokleja" go do strony.
-      // Najprościej mówiąc: metoda app.initMenu przejdzie po każdym produkcie z osobna i stworzy dla niego instancję Produkt, czego wynikiem będzie również utworzenie na stronie reprezentacji HTML każdego z produktów thisApp.data.products.
-
-      // const testProduct = new Product();
-      // console.log('new Product: ', testProduct);
-
       const thisApp = this;
       console.log('thisApp.data: ', thisApp.data);
 
@@ -102,7 +124,6 @@
       }
     },
     initData: function () {
-      // Przygotowuje nam łatwy dostęp do danych - źródła
       const thisApp = this;
       thisApp.data = dataSource;
     },
