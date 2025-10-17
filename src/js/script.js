@@ -93,7 +93,7 @@
       thisProduct.form = thisProduct.element.querySelector(
         select.menuProduct.form
       );
-      thisProduct.formInputs = thisProduct.element.querySelectorAll(
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(
         select.all.formInputs
       );
       thisProduct.cartButton = thisProduct.element.querySelector(
@@ -108,7 +108,7 @@
       const thisProduct = this;
 
       /* Find the clickable trigger (the element that should react to clicking)
-      [NEW - after creating getElements function, the variable clickableTrigger is not longer needed] */
+      [NEW - after creating getElements function, the variable clickableTrigger is no longer needed] */
       // const clickableTrigger = thisProduct.element.querySelector(
       //   select.menuProduct.clickable
       // );
@@ -131,6 +131,7 @@
             );
           }
         }
+
         /* Toggle active class on thisProduct.element */
         thisProduct.element.classList.toggle(
           classNames.menuProduct.wrapperActive
@@ -177,17 +178,18 @@
           /* Determine option value, e.g. optionId = 'olives', option = {label: 'Olives', price: 2, default: true } */
           const option = param.options[optionId];
 
-          if (formData[paramId].includes(optionId) == true) {
-            if (option.default !== true) {
+          if (formData[paramId].includes(optionId)) {
+            if (!option.default) {
               price += option.price;
             }
           } else {
-            if (option.default == true) {
+            if (option.default) {
               price -= option.price;
             }
           }
         }
       }
+
       /* Update calculated price in the HTML */
       thisProduct.priceElem.innerHTML = price;
     }
