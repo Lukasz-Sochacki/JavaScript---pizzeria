@@ -240,9 +240,11 @@
           }
         }
       }
+
+      /* [NEW] Add new property priceSingle */
+      thisProduct.priceSingle = price;
       /* Multiply price by amount */
       price *= thisProduct.amountWidget.value;
-
       /* Update calculated price in the HTML */
       thisProduct.dom.priceElem.innerHTML = price;
     }
@@ -258,10 +260,55 @@
         thisProduct.processOrder();
       });
     }
+
+    prepareCartProduct() {
+      const thisProduct = this;
+      console.log(thisProduct);
+
+      const productSummary = {
+        id: thisProduct.id,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.dom.priceElem.innerHTML,
+        params: thisProduct.prepareCartProductParams(),
+      };
+      return productSummary;
+    }
+
+    prepareCartProductParams() {
+      const thisProduct = this;
+      const formData = utils.serializeFormToObject(thisProduct.dom.form);
+      const productParamsSummary = {};
+
+      // for every category (param)
+      for (let paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+
+        // create category param in productParamsSummary const eg. productParamsSummary = { ingredients: { name: 'Ingredients', options: {}}}
+
+        productParamsSummary[paramId] = {
+          label: param.label,
+          options: {},
+        };
+        // for every option in this category
+        for (let optionId in param.options) {
+          const option = param.options[optionId];
+          const optionSelected =
+            formData[paramId] && formData[paramId].includes(optionId);
+
+          if (optionSelected) {
+            productParamsSummary[paramId].options[optionId] = option.label;
+          }
+        }
+      }
+      return productParamsSummary;
+    }
     addToCart() {
       const thisProduct = this;
+      // console.log(thisProduct.data.params);
 
-      app.cart.add(thisProduct);
+      app.cart.add(thisProduct.prepareCartProduct());
     }
   }
 
