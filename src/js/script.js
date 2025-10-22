@@ -266,7 +266,10 @@
       //TODO: Add validation
 
       if (thisWidget.value !== newValue && !isNaN(newValue)) {
-        if (newValue >= 0 && newValue <= 10) {
+        if (
+          newValue >= settings.amountWidget.defaultMin &&
+          newValue <= settings.amountWidget.defaultMax
+        ) {
           thisWidget.value = newValue;
           thisWidget.announce();
         }
