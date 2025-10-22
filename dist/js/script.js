@@ -148,7 +148,6 @@
 
     initOrderForm() {
       const thisProduct = this;
-      console.log(this);
 
       thisProduct.form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -228,11 +227,18 @@
     constructor(element) {
       const thisWidget = this;
 
-      console.log('Amount Widget: ', thisWidget);
-      console.log('constructor arguments: ', element);
+      // console.log('Amount Widget: ', thisWidget);
+      // console.log('constructor arguments: ', element);
 
       thisWidget.getElements(element);
-      thisWidget.setValue(thisWidget.input.value);
+
+      if (thisWidget.input.value) {
+        thisWidget.setValue(thisWidget.input.value);
+      } else {
+        thisWidget.setValue(settings.amountWidget.defaultValue);
+      }
+      // thisWidget.setValue(thisWidget.input.value);
+
       thisWidget.initActions();
     }
 
