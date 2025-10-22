@@ -358,6 +358,13 @@
   }
 
   const app = {
+    initCart: function () {
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+    },
+
     initMenu: function () {
       const thisApp = this;
 
@@ -379,6 +386,7 @@
 
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
