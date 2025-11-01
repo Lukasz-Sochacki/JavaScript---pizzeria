@@ -90,7 +90,6 @@ class Product {
             );
           }
         }
-
         /* Toggle active class on thisProduct.element */
         thisProduct.element.classList.toggle(
           classNames.menuProduct.wrapperActive
@@ -177,8 +176,6 @@ class Product {
     thisProduct.amountWidget = new AmountWidget(
       thisProduct.dom.amountWidgetElem
     );
-    // console.log(thisProduct);
-
     thisProduct.dom.amountWidgetElem.addEventListener('updated', function () {
       thisProduct.processOrder();
     });
@@ -229,8 +226,6 @@ class Product {
   }
   addToCart() {
     const thisProduct = this;
-    // console.log(thisProduct.data.params);
-
     // app.cart.add(thisProduct.prepareCartProduct());
 
     const event = new CustomEvent('add-to-cart', {

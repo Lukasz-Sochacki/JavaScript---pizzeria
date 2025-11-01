@@ -24,7 +24,6 @@ const app = {
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
 
     const idFromHash = window.location.hash.replace('#/', '');
-    // console.log(idFromHash);
 
     let pageMatchingHash = thisApp.pages[0].id;
 
@@ -34,7 +33,7 @@ const app = {
         break;
       }
     }
-    // console.log(pageMatchingHash);
+
     thisApp.activatePage(pageMatchingHash);
     for (let link of thisApp.navLinks) {
       link.addEventListener('click', function (event) {
@@ -109,7 +108,6 @@ const app = {
         /* Execute initMenu method */
         thisApp.initMenu();
       });
-    console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
   init: function () {
     const thisApp = this;
@@ -123,6 +121,7 @@ const app = {
     thisApp.initData();
     // thisApp.initMenu();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 

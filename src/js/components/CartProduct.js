@@ -47,8 +47,6 @@ class CartProduct {
       thisCartProduct.amount = parseInt(thisCartProduct.amountWidget.value);
       thisCartProduct.price =
         thisCartProduct.amount * parseInt(thisCartProduct.priceSingle);
-      // console.log(thisCartProduct.amountWidget.value);
-      // console.log(thisCartProduct.price);
       thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
     });
   }

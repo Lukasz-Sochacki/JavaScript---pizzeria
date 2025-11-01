@@ -4,9 +4,6 @@ class AmountWidget {
   constructor(element) {
     const thisWidget = this;
 
-    // console.log('Amount Widget: ', thisWidget);
-    // console.log('constructor arguments: ', element);
-
     thisWidget.getElements(element);
 
     if (thisWidget.input.value) {
@@ -14,8 +11,6 @@ class AmountWidget {
     } else {
       thisWidget.setValue(settings.amountWidget.defaultValue);
     }
-    // thisWidget.setValue(thisWidget.input.value);
-
     thisWidget.initActions();
   }
 
