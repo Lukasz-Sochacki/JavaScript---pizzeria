@@ -1,78 +1,72 @@
 import { select, settings } from '../settings.js';
+import BaseWidget from '../components/BaseWidget.js';
 
-class AmountWidget {
+//extends czyli klasa AmountWidget jest rozszerzeniem klasy BaseWidget
+class AmountWidget extends BaseWidget {
   constructor(element) {
+    //Pierwszą rzeczą, którą wykonujemy w konstruktorze klasy dziedziczącej (AmountWidget) jest wywołanie konstruktora klasy nadrzędnej (BaseWidget). Odwołamy się do niego za pomocą wyrażenia 'super'
+    super(element, settings.amountWidget.defaultValue);
     const thisWidget = this;
 
     thisWidget.getElements(element);
 
-    if (thisWidget.input.value) {
-      thisWidget.setValue(thisWidget.input.value);
-    } else {
-      thisWidget.setValue(settings.amountWidget.defaultValue);
-    }
+    // if (thisWidget.dom.input.value) {
+    //   thisWidget.setValue(thisWidget.dom.input.value);
+    // } else {
+    //   thisWidget.setValue(settings.amountWidget.defaultValue);
+    // }
+    //Tym zajmuje się już konkstruktor klasy nadrzędnej (BaseWidget)
+
     thisWidget.initActions();
+    // console.log('AmountWidget: ', thisWidget);
   }
 
-  getElements(element) {
+  getElements() {
     const thisWidget = this;
 
-    thisWidget.element = element;
+    // thisWidget.dom.wrapper = element;
+    //Tym zajmuje się już klasa BaseWidget
 
-    thisWidget.input = thisWidget.element.querySelector(
+    thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(
       select.widgets.amount.input
     );
-    thisWidget.linkDecrease = thisWidget.element.querySelector(
+
+    thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(
       select.widgets.amount.linkDecrease
     );
-    thisWidget.linkIncrease = thisWidget.element.querySelector(
+    thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(
       select.widgets.amount.linkIncrease
     );
   }
 
-  setValue(value) {
+  isValid(value) {
+    return (
+      !isNaN(value) &&
+      value >= settings.amountWidget.defaultMin &&
+      value <= settings.amountWidget.defaultMax
+    );
+  }
+
+  renderValue() {
     const thisWidget = this;
-
-    const newValue = parseInt(value);
-
-    //TODO: Add validation
-
-    if (thisWidget.value !== newValue && !isNaN(newValue)) {
-      if (
-        newValue >= settings.amountWidget.defaultMin &&
-        newValue <= settings.amountWidget.defaultMax
-      ) {
-        thisWidget.value = newValue;
-        thisWidget.announce();
-      }
-    }
-    thisWidget.input.value = thisWidget.value;
+    thisWidget.dom.input.value = thisWidget.value;
   }
 
   initActions() {
     const thisWidget = this;
 
-    thisWidget.input.addEventListener('change', function () {
-      thisWidget.setValue(thisWidget.input.value);
+    thisWidget.dom.input.addEventListener('change', function () {
+      // thisWidget.setValue(thisWidget.dom.input.value);
+      thisWidget.value = thisWidget.dom.input.value;
     });
-    thisWidget.linkDecrease.addEventListener('click', function (event) {
+    thisWidget.dom.linkDecrease.addEventListener('click', function (event) {
       event.preventDefault();
       thisWidget.setValue(thisWidget.value - 1);
     });
-    thisWidget.linkIncrease.addEventListener('click', function (event) {
+    thisWidget.dom.linkIncrease.addEventListener('click', function (event) {
       event.preventDefault();
       thisWidget.setValue(thisWidget.value + 1);
     });
-  }
-  announce() {
-    const thisWidget = this;
-
-    //"updated" is an invented name, a random one
-    // const event = new Event('updated');
-    const event = new CustomEvent('updated', {
-      bubbles: true,
-    });
-    thisWidget.element.dispatchEvent(event);
   }
 }
 
