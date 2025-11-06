@@ -9,7 +9,8 @@ class Booking {
     const thisBooking = this;
 
     thisBooking.element = element;
-    thisBooking.chosenTable = 0; //CZEMU NIE MOŻE BYĆ TABLICA?
+
+    thisBooking.chosenTable = null;
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
@@ -35,8 +36,6 @@ class Booking {
       eventsRepeat: [settings.db.repeatParam, endDateParam],
     };
 
-    // console.log('getData params: ', params);
-
     const urls = {
       bookings:
         settings.db.url +
@@ -57,7 +56,7 @@ class Booking {
         '?' +
         params.eventsRepeat.join('&'),
     };
-    // console.log('getData urls: ', urls);
+
     Promise.all([
       fetch(urls.bookings),
       fetch(urls.eventsCurrent),
@@ -74,8 +73,6 @@ class Booking {
         ]);
       })
       .then(function ([bookings, eventsCurrent, eventsRepeat]) {
-        // console.log(bookings, eventsCurrent, eventsRepeat);
-
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
       });
   }
@@ -111,7 +108,6 @@ class Booking {
       }
     }
 
-    console.log('thisBooking.booked: ', thisBooking.booked);
     thisBooking.updateDOM();
   }
 
@@ -223,13 +219,13 @@ class Booking {
     );
   }
 
-  initTables(event) {
+  chooseTables(event) {
     const thisBooking = this;
-    thisBooking.tables = document.querySelectorAll(select.booking.tables); //Dlaczego tutaj muszę pobrać stoliki? Gdy zrobię to w metodzie render, to metoda initTables tego nie widzi (pętla for of)
 
     const clickedElement = event.target;
     event.preventDefault();
-    for (let table of thisBooking.tables) {
+
+    for (let table of thisBooking.dom.tables) {
       if (
         table !== clickedElement &&
         table.classList.contains(classNames.booking.tableChosen)
@@ -241,16 +237,15 @@ class Booking {
       if (!clickedElement.classList.contains(classNames.booking.tableChosen)) {
         clickedElement.classList.add(classNames.booking.tableChosen);
         thisBooking.chosenTable = clickedElement.getAttribute(
-          settings.booking.tableIdAttribute //Nie działała metoda push, gdy thisBooking.chosenTable było tablicą
+          settings.booking.tableIdAttribute
         );
       } else {
         clickedElement.classList.remove(classNames.booking.tableChosen);
-        thisBooking.chosenTable = 0;
+        thisBooking.chosenTable = null;
       }
     } else {
       alert('This table is booked! Please choose another one');
     }
-    // console.log(thisBooking.chosenTable);
   }
 
   sendBooking() {
@@ -293,10 +288,8 @@ class Booking {
           payLoad.duration,
           payLoad.table
         );
-        // thisBooking.initTables();
+        console.log(thisBooking.booked);
       });
-
-    // console.log(payLoad);
   }
 
   initWidgets() {
@@ -316,18 +309,15 @@ class Booking {
     });
 
     thisBooking.dom.tablesContainer.addEventListener('click', function (event) {
-      thisBooking.initTables(event); //Wcześniej napisałem funkcję w ten sposób:
-      // (... 'click', initTables) - czemu nie zadziałało?
+      thisBooking.chooseTables(event);
     });
 
     thisBooking.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
-      if (thisBooking.chosenTable !== 0) {
+
+      if (thisBooking.chosenTable !== null) {
         thisBooking.sendBooking();
       }
-
-      // if (thisBooking.chosenTable !== 0) {}
-      //Nie działa ponieważ podczas wysłania formularza, thisBooking.chosenTable zawsze wskazuje wartość 0!!
     });
   }
 }
