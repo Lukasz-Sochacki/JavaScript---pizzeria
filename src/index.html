@@ -239,8 +239,8 @@
          </div>
        </div>
        <div class="order-confirmation">
-         <input type="tel" name="phone" placeholder="Your phone">
-         <input type="text" name="address" placeholder="Your address">
+         <input type="tel" class="error" name="phone" required minlength="9" placeholder="Your phone">
+         <input type="text" class="error" name="address" required maxlength="100" placeholder="Your address">
          <button type="submit" class="btn-secondary">Book table</button>
        </div>
      </form>
