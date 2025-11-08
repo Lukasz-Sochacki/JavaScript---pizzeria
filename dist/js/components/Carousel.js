@@ -5,7 +5,9 @@ class Carousel {
     const thisCarousel = this;
 
     thisCarousel.dom = {};
-
+    thisCarousel.dom.wrapper = document.querySelector(
+      select.containerOf.carousel
+    );
     thisCarousel.render(element);
     thisCarousel.initPlugin();
   }
