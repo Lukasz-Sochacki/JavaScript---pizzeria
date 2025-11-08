@@ -4,8 +4,31 @@ import { settings, select, classNames, templates } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
 
 const app = {
+  initHome: function () {
+    const thisApp = this;
+
+    thisApp.homeContainer = document.querySelector(select.containerOf.home);
+    thisApp.home = new Home(thisApp.homeContainer);
+
+    thisApp.homeShortcuts = document.querySelectorAll(select.home.links);
+
+    for (let link of thisApp.homeShortcuts) {
+      link.addEventListener('click', function (event) {
+        const clickedElement = this;
+        event.preventDefault();
+
+        const homeId = clickedElement.getAttribute('href').replace('#', '');
+
+        thisApp.activatePage(homeId);
+
+        window.location.hash = '#/' + homeId;
+      });
+    }
+  },
+
   initBooking: function () {
     const thisApp = this;
 
@@ -122,6 +145,7 @@ const app = {
     // thisApp.initMenu();
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initHome();
   },
 };
 

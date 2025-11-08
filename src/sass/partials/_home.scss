@@ -1,0 +1,240 @@
+.home-wrapper.container {
+  padding: 0;
+}
+
+/*--- header ---*/
+
+.home-shortcuts {
+  font-family: $font-header;
+  padding: 36px 0;
+
+  .home-shortcuts-wrapper {
+    display: flex;
+
+    a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+
+      div {
+        margin-bottom: 10px;
+        border-radius: 5px;
+        height: 120px;
+      }
+
+      div.orderonline {
+        background-image: url('../../images/assets/pizza-1.jpg');
+        background-size: cover;
+        background-position: center;
+        margin-right: 5px;
+        position: relative;
+        font-family: $font-text;
+
+        &:hover .orderonline-subtitle {
+          top: 55%;
+          color: $color-light;
+          opacity: 1;
+        }
+
+        &:hover .orderonline-title {
+          line-height: 80px;
+        }
+
+        p.orderonline-title {
+          color: $color-light;
+          text-transform: uppercase;
+          line-height: 120px;
+          font-size: 26px;
+          transition: $transition;
+        }
+
+        p.orderonline-subtitle {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translate((-50%, -50%));
+          display: block;
+          width: 100%;
+          transition: $transition;
+          opacity: 0;
+        }
+      }
+
+      div.bookatable {
+        background-image: url('../../images/assets/pizza-2.jpg');
+        background-size: cover;
+        margin-left: 5px;
+        background-position: center;
+        position: relative;
+        font-family: $font-text;
+
+        &:hover .bookatable-subtitle {
+          top: 55%;
+          color: $color-light;
+          opacity: 1;
+        }
+
+        &:hover .bookatable-title {
+          line-height: 80px;
+        }
+
+        p.bookatable-title {
+          color: $color-light;
+          text-transform: uppercase;
+          line-height: 120px;
+          font-size: 26px;
+          transition: $transition;
+        }
+
+        p.bookatable-subtitle {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translate((-50%, -50%));
+          display: block;
+          width: 100%;
+          transition: $transition;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .opening-hours {
+    text-align: center;
+    background-color: $color-danger;
+    opacity: 0.5;
+    padding: 20px;
+    color: $color-light;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-family: $font-text;
+
+    p.opening-hours-title {
+      font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 0;
+    }
+
+    p.opening-hours-subtitle {
+      margin-top: 0;
+    }
+  }
+}
+
+/*--- carousel ---*/
+
+.main-carousel {
+  margin: 100px 0;
+
+  .flickity-page-dots {
+    position: relative;
+    margin-top: 60px;
+    bottom: 0px;
+  }
+
+  .carousel-cell {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+    margin-right: 10px;
+
+    .carousel-img-wrapper {
+      flex: 50%;
+      margin-right: 15px;
+      padding: 5px;
+      img {
+        width: 100%;
+      }
+    }
+
+    .carousel-content-wrapper {
+      flex: 50%;
+      margin-left: 15px;
+      padding: 5px;
+      font-family: $font-text;
+
+      p {
+        text-align: justify;
+
+        &.carousel-title {
+          font-weight: $font-bold;
+          font-size: 20px;
+          text-transform: uppercase;
+        }
+
+        &.carousel-author {
+          font-weight: $font-bold;
+        }
+      }
+    }
+  }
+}
+
+/*--- gallery ---*/
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .gallery-images {
+    position: relative;
+    flex: 28%;
+    height: 200px;
+    margin: 5px;
+
+    &:hover .gallery-icons {
+      opacity: 1;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: $radius;
+      transition: $transition;
+    }
+    &:hover:after {
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $color-dark;
+      opacity: 0.3;
+      position: absolute;
+    }
+
+    .gallery-icons {
+      display: flex;
+      justify-content: space-evenly;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate((-50%, -50%));
+      opacity: 0;
+      transition: $transition;
+      width: 100%;
+      z-index: 2;
+    }
+
+    i {
+      color: $color-light;
+      font-size: 24px;
+      transition: $transition;
+
+      &:hover {
+        opacity: 0.3;
+        color: $color-main;
+      }
+    }
+  }
+}
+
+a.footer {
+  color: $color-danger;
+  // margin: 10px 0;
+}
