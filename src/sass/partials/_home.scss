@@ -172,7 +172,9 @@
     }
   }
 }
-
+.flickity-viewport {
+  transition: height 0.2s;
+}
 /*--- gallery ---*/
 
 .gallery {

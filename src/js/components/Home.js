@@ -1,4 +1,5 @@
 import { templates, select } from '../settings.js';
+import Carousel from '../components/Carousel.js';
 
 class Home {
   constructor() {
@@ -22,18 +23,8 @@ class Home {
   }
   initWidgets() {
     const thisHome = this;
-    /* eslint-disable */
-    thisHome.flkty = new Flickity(thisHome.dom.carousel, {
-      /* eslint-enable */
-      cellAlign: 'center',
-      contain: true,
-      autoPlay: 3000,
-      pauseAutoPlayOnHover: false,
-      wrapAround: false,
-      prevNextButtons: false,
-      pageDots: true,
-      freeScroll: true,
-    });
+
+    thisHome.carousel = new Carousel(thisHome.dom.carousel);
   }
 }
 
